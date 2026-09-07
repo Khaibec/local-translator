@@ -33,6 +33,16 @@ class AppConfig:
         self.continue_on_error: bool = bool(trans.get("continue_on_error", False))
         self.concurrency: int = int(trans.get("concurrency", 1))
 
+        # Crawler settings
+        crawler = self.raw_data.get("crawler", {})
+        self.crawler_timeout: int = int(crawler.get("timeout_seconds", 30))
+        self.crawler_max_retries: int = int(crawler.get("max_retries", 3))
+        self.crawler_delay: float = float(crawler.get("delay_seconds", 1.0))
+        self.crawler_user_agent: str = crawler.get(
+            "user_agent",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        )
+
         # Paths
         paths = self.raw_data.get("paths", {})
         self.input_dir: Path = self._resolve_path(paths.get("input_dir", "input"))
