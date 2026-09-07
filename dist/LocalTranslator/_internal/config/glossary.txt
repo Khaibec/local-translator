@@ -1,0 +1,16 @@
+# Bảng thuật ngữ chuyên ngành (Japanese = Vietnamese)
+# Định dạng: <Từ tiếng Nhật> = <Bản dịch tiếng Việt>
+# Dòng trống hoặc bắt đầu bằng dấu # sẽ được bỏ qua.
+
+機械学習 = học máy
+深層学習 = học sâu
+人工知能 = trí tuệ nhân tạo
+ニューラルネットワーク = mạng nơ-ron
+データセット = tập dữ liệu
+アルゴリズム = thuật toán
+パラメータ = tham số
+モデル = mô hình
+推論 = suy luận
+学習 = huấn luyện
+自然言語処理 = xử lý ngôn ngữ tự nhiên
+大規模言語モデル = mô hình ngôn ngữ lớn

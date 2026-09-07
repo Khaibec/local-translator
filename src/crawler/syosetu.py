@@ -181,11 +181,19 @@ class SyosetuCrawler(BaseCrawler):
         novel_url: str,
         input_base_dir: Path,
         cache_base_dir: Path,
-        force: bool = False
+        force: bool = False,
+        start_chapter: Optional[int] = None,
+        end_chapter: Optional[int] = None
     ) -> NovelMetadata:
-        """Crawl the complete novel, saving chapters to disk with manifest-based resume."""
+        """Crawl the novel (or a range of chapters), saving chapters to disk with manifest-based resume."""
         metadata, chapters = self.discover_chapters(novel_url)
         ncode = metadata.ncode
+
+        # Filter chapters if range is provided
+        if start_chapter is not None:
+            chapters = [ch for ch in chapters if ch.index >= start_chapter]
+        if end_chapter is not None:
+            chapters = [ch for ch in chapters if ch.index <= end_chapter]
 
         novel_input_dir = Path(input_base_dir) / ncode
         chapters_input_dir = novel_input_dir / "chapters"
@@ -193,15 +201,16 @@ class SyosetuCrawler(BaseCrawler):
 
         cache_manager = NovelCacheManager(cache_base_dir, ncode=ncode)
 
-        novel_manifest = NovelManifest(
+        novel_manifest = cache_manager.load_novel_manifest() or NovelManifest(
             ncode=ncode,
             title=metadata.title,
             source_url=metadata.source_url,
             crawler=metadata.crawler,
-            total_chapters=len(chapters),
+            total_chapters=metadata.chapter_count,
             crawled_chapters=0,
             crawl_status="crawling"
         )
+        novel_manifest.crawl_status = "crawling"
         cache_manager.save_novel_manifest(novel_manifest)
 
         # Save novel.json in input/<ncode>/

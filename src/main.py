@@ -146,7 +146,9 @@ def run_crawl(args: argparse.Namespace) -> int:
             novel_url=args.url,
             input_base_dir=config.input_dir,
             cache_base_dir=config.cache_dir,
-            force=args.force
+            force=args.force,
+            start_chapter=getattr(args, "start_chapter", None),
+            end_chapter=getattr(args, "end_chapter", None)
         )
         print("\n" + "=" * 60)
         print("  CRAWL COMPLETED SUCCESSFULLY")
@@ -340,6 +342,8 @@ def build_parser() -> argparse.ArgumentParser:
     # crawl subcommand
     crawl_parser = subparsers.add_parser("crawl", help="Crawl a Japanese web novel from URL")
     crawl_parser.add_argument("url", help="Novel URL (e.g. https://ncode.syosetu.com/n1234ab/)")
+    crawl_parser.add_argument("--start-chapter", type=int, help="Start chapter index (e.g. 1)")
+    crawl_parser.add_argument("--end-chapter", type=int, help="End chapter index (e.g. 10)")
     crawl_parser.add_argument("--delay", type=float, help="Polite delay between requests in seconds (default: 1.0)")
     crawl_parser.add_argument("--timeout", type=int, help="Request timeout in seconds (default: 30)")
     crawl_parser.add_argument("--force", action="store_true", help="Force re-download of already crawled chapters")
@@ -373,17 +377,27 @@ def build_parser() -> argparse.ArgumentParser:
     ct_parser.add_argument("--temperature", type=float, help="Override sampling temperature (default: 0.1)")
     ct_parser.add_argument("--host", help="Override Ollama host URL (default: http://localhost:11434)")
 
+    # gui subcommand
+    subparsers.add_parser("gui", help="Launch the PySide6 Desktop GUI application")
+
     return parser
 
 
 def main() -> None:
     parser = build_parser()
     if len(sys.argv) == 1:
-        parser.print_help()
-        sys.exit(0)
+        try:
+            from src.gui import run_gui
+            sys.exit(run_gui())
+        except Exception:
+            parser.print_help()
+            sys.exit(0)
 
     args = parser.parse_args()
-    if args.command == "check":
+    if args.command == "gui":
+        from src.gui import run_gui
+        sys.exit(run_gui())
+    elif args.command == "check":
         sys.exit(run_check(args))
     elif args.command == "crawl":
         sys.exit(run_crawl(args))

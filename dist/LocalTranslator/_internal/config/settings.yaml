@@ -1,0 +1,29 @@
+ollama:
+  host: "http://localhost:11434"
+  model: "translategemma:4b"
+  timeout_seconds: 600
+
+translation:
+  source_language: "Japanese"
+  target_language: "Vietnamese"
+  chunk_size: 1800
+  context_size: 600
+  temperature: 0.1
+  max_retries: 3
+  retry_backoff: 2.0
+  continue_on_error: false
+  concurrency: 1
+
+crawler:
+  timeout_seconds: 30
+  max_retries: 3
+  delay_seconds: 1.0
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+paths:
+  input_dir: "input"
+  output_dir: "output"
+  cache_dir: "cache"
+  logs_dir: "logs"
+  prompt_path: "config/prompt.txt"
+  glossary_path: "config/glossary.txt"

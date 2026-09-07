@@ -118,7 +118,9 @@ class BaseCrawler(ABC):
         novel_url: str,
         input_base_dir: Path,
         cache_base_dir: Path,
-        force: bool = False
+        force: bool = False,
+        start_chapter: Optional[int] = None,
+        end_chapter: Optional[int] = None
     ) -> NovelMetadata:
         """Crawl the novel, saving to input_base_dir and caching progress."""
         pass

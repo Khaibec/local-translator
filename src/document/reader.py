@@ -71,6 +71,29 @@ class DocxReader(BaseDocumentReader):
         return normalize_line_endings("\n\n".join(paragraphs))
 
 
+class PdfReader(BaseDocumentReader):
+    """Reader for text-based PDF documents."""
+
+    def read(self, file_path: Path) -> str:
+        if not file_path.exists():
+            raise FileNotFoundError(f"Source file not found: {file_path}")
+
+        try:
+            import pypdf
+        except ImportError:
+            raise ImportError("pypdf is required to read PDF files. Install it with: pip install pypdf")
+
+        pages_text = []
+        with open(file_path, "rb") as f:
+            reader = pypdf.PdfReader(f)
+            for page in reader.pages:
+                extracted = page.extract_text()
+                if extracted and extracted.strip():
+                    pages_text.append(extracted.strip())
+
+        return normalize_line_endings("\n\n".join(pages_text))
+
+
 def get_reader(file_path: Path) -> BaseDocumentReader:
     """Factory to retrieve appropriate document reader based on file suffix."""
     suffix = file_path.suffix.lower()
@@ -78,5 +101,7 @@ def get_reader(file_path: Path) -> BaseDocumentReader:
         return TxtReader()
     elif suffix == ".docx":
         return DocxReader()
+    elif suffix == ".pdf":
+        return PdfReader()
     else:
-        raise ValueError(f"Unsupported file format: '{suffix}'. Supported formats: .txt, .md, .docx")
+        raise ValueError(f"Unsupported file format: '{suffix}'. Supported formats: .txt, .md, .docx, .pdf")

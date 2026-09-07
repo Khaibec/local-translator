@@ -53,7 +53,7 @@ class TestDocumentIO(unittest.TestCase):
 
     def test_unsupported_format_raises(self):
         with self.assertRaises(ValueError):
-            get_reader(Path("test.pdf"))
+            get_reader(Path("test.xyz"))
 
 
 if __name__ == "__main__":
