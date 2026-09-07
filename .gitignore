@@ -17,7 +17,7 @@ output/
 input/*
 
 # Nhưng vẫn cho phép sample.txt
-!input/sample.txt
+!input/sample_ja.txt
 
 
 # IDE
