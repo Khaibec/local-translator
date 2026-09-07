@@ -1,0 +1,23 @@
+ollama:
+  host: "http://localhost:11434"
+  model: "translategemma:4b"
+  timeout_seconds: 600
+
+translation:
+  source_language: "Japanese"
+  target_language: "Vietnamese"
+  chunk_size: 1800
+  context_size: 600
+  temperature: 0.1
+  max_retries: 3
+  retry_backoff: 2.0
+  continue_on_error: false
+  concurrency: 1
+
+paths:
+  input_dir: "input"
+  output_dir: "output"
+  cache_dir: "cache"
+  logs_dir: "logs"
+  prompt_path: "config/prompt.txt"
+  glossary_path: "config/glossary.txt"
