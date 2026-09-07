@@ -13,6 +13,12 @@ ENV/
 cache/
 logs/
 output/
+# Ignore mọi file trong input/
+input/*
+
+# Nhưng vẫn cho phép sample.txt
+!input/sample.txt
+
 
 # IDE
 .vscode/
