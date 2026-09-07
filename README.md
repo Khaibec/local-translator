@@ -168,6 +168,8 @@ local-translator/
 
 ## 4. Hướng dẫn cài đặt từng bước
 
+Có thể chạy ứng dụng tại dist/LocalTranslator.exe hoặc dùng cách sau: 
+
 ### Bước 1: Cài đặt Ollama và tải mô hình TranslateGemma 4B
 
 1. Tải và cài đặt Ollama cho Windows từ trang chủ: [https://ollama.com/download](https://ollama.com/download).
