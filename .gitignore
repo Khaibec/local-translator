@@ -19,6 +19,8 @@ input/*
 # Nhưng vẫn cho phép sample.txt
 !input/sample_ja.txt
 
+#config
+config/glossary.txt
 
 # IDE
 .vscode/
